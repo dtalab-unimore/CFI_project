@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    container_name: cfi-api-dev
+    ports:
+      - "5000:5000"
+    volumes:
+      # mounting the volumes so that code changes get reflected live into the container
+      - ./:/app
+      - ./instance:/app/instance
+    command: flask --app flaskr run --host=0.0.0.0 --port=5000 --debug

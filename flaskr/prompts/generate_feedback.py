@@ -2,9 +2,11 @@ prompt_generate_feedback = """Given the materials, the questions and answers, th
 You must indicate:
 1. the general result of the test, including the amount of errors;
 2. The subtopics where the user is currently lacking;
-3. If there's at least a subtopic where the user is lacking, you must provide suggestions of where to improve, which material to revise and where
+3. If there's at least a subtopic where the user is lacking, you must provide suggestions of where to improve, which material to revise and where. Provide suggestions of which materials to revise based exclusively on what questions the user got wrong
     a) for example, for transcripts, you must indicate the timeframes where the user needs to revise;
-    b) for documents, you must indicate where in the document the user needs to revise (page, section, or general position).
+    b) for documents, you must indicate which document(s) and where in the document(s) the user needs to revise.
+
+If all the answers are correct, you can avoid telling the user which subtopics and materials to revise, but still encourage the user to keep on practicing and learning.
 
 You MUST NOT:
 1. hallucinate or invent things that are not provided, both in the materials and in the question results.
@@ -33,7 +35,7 @@ Amount of errors: {amount_of_errors}
 prompt_wo_weak_topics_generate_feedback = """Given the materials, the questions and answers, the amount of errors, and the broad topic of the questions, you must generate a feedback to provide to the user.
 You must indicate:
 1. the general result of the test, including the amount of errors;
-2. tell the user that he did no mistakes and to keep on practicing, and encouraging him/her.
+2. tell the user that he/she did no mistakes and to keep on practicing, and encouraging him/her.
 
 You MUST NOT:
 1. hallucinate or invent things that are not provided, both in the materials and in the question results.
@@ -62,9 +64,11 @@ prompt_wo_topic_generate_feedback = """Given the materials, the questions and an
 You must indicate:
 1. the general result of the test, including the amount of errors;
 2. The subtopics where the user is currently lacking;
-3. If there's at least a subtopic where the user is lacking, you must provide suggestions of where to improve, which material to revise and where
+3. If there's at least a subtopic where the user is lacking, you must provide suggestions of where to improve, which material to revise and where. Provide suggestions of which materials to revise based exclusively on what questions the user got wrong
     a) for example, for transcripts, you must indicate the timeframes where the user needs to revise;
-    b) for documents, you must indicate where in the document the user needs to revise (page, section, or general position).
+    b) for document(s), you must indicate where in the document(s) the user needs to revise.
+
+If all the answers are correct, you can avoid telling the user which subtopics and materials to revise, but still encourage the user to keep on practicing and learning.
 
 You MUST NOT:
 1. hallucinate or invent things that are not provided, both in the materials and in the question results.
@@ -92,7 +96,7 @@ Amount of errors: {amount_of_errors}
 prompt_wo_all_generate_feedback = """Given the materials, the questions and answers, and the amount of errors, you must generate a feedback to provide to the user.
 You must indicate:
 1. the general result of the test, including the amount of errors;
-2. tell the user that he did no mistakes and to keep on practicing, and encouraging him/her.
+2. tell the user that he/she did no mistakes and to keep on practicing, and encouraging him/her.
 
 You MUST NOT:
 1. hallucinate or invent things that are not provided, both in the materials and in the question results.

@@ -18,7 +18,7 @@ ALLOWED_LANGUAGES = [
 EASY_QUESTION_DESCRIPTION = """Name of question typology: factual questioning
 Description: in this typology, the questions exclusively ask things that are explicitly indicated inside the materials. No inferential or deductive questions are made. The questions must be of easy difficulty."""
 MEDIUM_QUESTION_DESCRIPTION = """Name of question typology: mixed questioning
-Description: in this typology, half of the questions must be factual, where the questions asks things that are explicitly indicated inside the materials, while the other half must contain inferential questions, where the questions ask things that must be inferred from the provided materials (and are not explicitly stated). The questions must be of medium difficulty."""
+Description: in this typology, half of the questions must be factual, where the questions asks things that are explicitly indicated inside the materials, while the other half must contain inferential questions, where the questions ask things that must be inferred from the provided materials (and are not explicitly stated). The questions must be of medium difficulty. The question_type can only be "factual" or "inferential"."""
 HARD_QUESTION_DESCRIPTION = """Name of question typology: inferential questioning
 Description: in this typology, the questions must exclusively ask things that must be inferred from the provided materials (and are not explicitly stated). The questions must be of hard difficulty."""
 competency_levels = ["low", "medium", "high"]
@@ -98,7 +98,7 @@ def transcribe():
 
 @bp.post("/generate_qa")
 def generate_qa():
-    if "transcription" not in request.form and "document" not in request.form and "syllabus" not in request.form:
+    if "transcription" not in request.form and "document" not in request.form and "document" not in request.files and "syllabus" not in request.form and "syllabus" not in request.files:
         return bad_request('At least one among "transcription", "document", or "syllabus" needs to be passed to generate the questions')
     if "competency_level" not in request.form:
         is_competency_provided = False
@@ -145,13 +145,55 @@ def generate_qa():
     materials = ""
     if "transcription" in request.form:
         materials += f"## Transcription\n{request.form['transcription']}\n\n" # TODO: maybe it needs to be reprocessed
-    if "document" in request.form: # TODO the documents may be multiple and of file type, not string. This needs to be updated
-        materials += f"## Document\n{request.form['document']}\n\n"
-    if "syllabus" in request.form:
-        materials += f"## Syllabus\n{request.form['syllabus']}\n\n"
+
+    uploaded_file_document = None
+    if "document" in request.form or "document" in request.files:
+        uploaded_text = request.form.get("document")
+
+        uploaded_file_document = [
+            document
+            for document in request.files.getlist("document")
+            if document.filename
+        ]
+
+        if len(uploaded_file_document) > 0 and uploaded_text is not None:
+            bad_request(f"Cannot both send files and texts for the \"document\" attribute.")
+
+        if uploaded_text is not None:
+            materials += f"## Document\n{request.form['document']}\n\n"
+        else:
+            materials += f"## Document\nSee the attached documents below.\n\n"
+
+    uploaded_file_syllabus = None
+    if "syllabus" in request.form or "syllabus" in request.files:
+        uploaded_text_syllabus = request.form.get("syllabus")
+
+        uploaded_file_syllabus = [
+            document
+            for document in request.files.getlist("syllabus")
+            if document.filename
+        ]
+
+        if len(uploaded_file_syllabus) > 0 and uploaded_text_syllabus is not None:
+            bad_request(f"Cannot both send files and texts for the \"syllabus\" attribute.")
+
+        if uploaded_text_syllabus is not None:
+            materials += f"## Syllabus\n{request.form['syllabus']}\n\n"
+        else:
+            materials += f"## Syllabus\nSee the attached syllabus below.\n\n"
 
     openai_model = current_app.extensions["openai_model"]
-    questions = openai_model.generate_qa(materials, question_description, topic_text, num_questions, num_multiple_answers, language=language)
+    questions = openai_model.generate_qa(
+        materials,
+        question_description,
+        topic_text,
+        num_questions,
+        num_multiple_answers,
+        language=language,
+        uploaded_file_document=uploaded_file_document,
+        uploaded_file_syllabus=uploaded_file_syllabus
+    )
+
     if questions == -1:
         return internal_server_error("Internal processing error. Please try again later.")
 
@@ -161,7 +203,7 @@ def generate_qa():
 
 @bp.post("/evaluate")
 def evaluate():
-    if "transcription" not in request.form and "document" not in request.form and "syllabus" not in request.form:
+    if "transcription" not in request.form and "document" not in request.form and "document" not in request.files and "syllabus" not in request.form and "syllabus" not in request.files:
         return bad_request('At least one among "transcription", "document", or "syllabus" needs to be passed to generate the questions')
 
     if "language" not in request.form:
@@ -235,12 +277,54 @@ def evaluate():
     materials = ""
     if "transcription" in request.form:
         materials += f"## Transcription\n{request.form['transcription']}\n\n"  # TODO: maybe it needs to be reprocessed
-    if "document" in request.form:  # TODO the documents may be multiple and of file type, not string. This needs to be updated
-        materials += f"## Document\n{request.form['document']}\n\n"
-    if "syllabus" in request.form:
-        materials += f"## Syllabus\n{request.form['syllabus']}\n\n"
 
-    general_feedback_message = openai_model.generate_feedback(materials, questions_txt, topic_text, weak_topics, amount_of_errors=sum(wrong_answers), language=language)
+    uploaded_file_document = None
+    if "document" in request.form or "document" in request.files:
+        uploaded_text = request.form.get("document")
+
+        uploaded_file_document = [
+            document
+            for document in request.files.getlist("document")
+            if document.filename
+        ]
+
+        if len(uploaded_file_document) > 0 and uploaded_text is not None:
+            bad_request(f"Cannot both send files and texts for the \"document\" attribute.")
+
+        if uploaded_text is not None:
+            materials += f"## Document\n{request.form['document']}\n\n"
+        else:
+            materials += f"## Document\nSee the attached documents below.\n\n"
+
+    uploaded_file_syllabus = None
+    if "syllabus" in request.form or "syllabus" in request.files:
+        uploaded_text_syllabus = request.form.get("syllabus")
+
+        uploaded_file_syllabus = [
+            document
+            for document in request.files.getlist("syllabus")
+            if document.filename
+        ]
+
+        if len(uploaded_file_syllabus) > 0 and uploaded_text_syllabus is not None:
+            bad_request(f"Cannot both send files and texts for the \"syllabus\" attribute.")
+
+        if uploaded_text_syllabus is not None:
+            materials += f"## Syllabus\n{request.form['syllabus']}\n\n"
+        else:
+            materials += f"## Syllabus\nSee the attached syllabus below.\n\n"
+
+    general_feedback_message = openai_model.generate_feedback(
+        materials,
+        questions_txt,
+        topic_text,
+        weak_topics,
+        amount_of_errors=sum(wrong_answers),
+        language=language,
+        uploaded_file_document=uploaded_file_document,
+        uploaded_file_syllabus=uploaded_file_syllabus
+    )
+
     if general_feedback_message == -1:
         return bad_request("Internal processing error. Please try again later.")
 

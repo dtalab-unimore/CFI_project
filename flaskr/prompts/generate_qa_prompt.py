@@ -12,6 +12,7 @@ Generate directly the list of questions in the following manner. Write exactly "
     "answers": ..., # list containing {num_multiple_answers} answers. The answers do not contain the text indicating the options (e.g. "a)", "i)" etc.)
     "correct_answer": ..., # position in the list of the correct answer. The positioning must use Python indexing (starting from 0 to n-1)
     "question_type": ..., # string indicating the question type name, based on the different question typologies listed earlier
+    "question_difficulty": ..., # string indicating the difficulty level of the question, based on the question typology description
 }}
 
 Strictly follow the requirements, making questions about the {topic_text} topic, with the correct question typology and with the correct {language} language.
@@ -37,6 +38,7 @@ Generate directly the list of questions in the following manner. Write exactly "
     "answers": ..., # list containing {num_multiple_answers} answers. The answers do not contain the text indicating the options (e.g. "a)", "i)" etc.)
     "correct_answer": ..., # position in the list of the correct answer. The positioning must use Python indexing (starting from 0 to n-1)
     "question_type": ..., # string indicating the question type name, based on the different question typologies listed earlier
+    "question_difficulty": ..., # string indicating the difficulty level of the question, based on the question typology description
 }}
 
 Strictly follow the requirements, making questions with the correct question typology and with the correct {language} language.

@@ -1,11 +1,13 @@
 import io
+import os
 from functools import lru_cache
-
+import time
 from pydantic import BaseModel, Field
 from typing import Any, Optional
 from openai import OpenAI
 import timeout_decorator
-from flask import current_app
+from flask import current_app, jsonify
+from werkzeug.datastructures import FileStorage
 
 from .compress_audio import compress_audio, split_audio_ogg_bytes, TARGET_BYTES
 from .prompts.generate_qa_prompt import prompt_wo_topic, prompt_topic
@@ -111,16 +113,23 @@ class OpenAIModel(BaseModel):
                 if isinstance(obj, tuple):
                     obj = obj[0]
 
-                try:
-                    text = self.client.audio.transcriptions.create(
-                        model=self.transcription_model_name,
-                        file=obj,
-                        response_format="verbose_json",
-                        timestamp_granularities=["segment"],
-                        language=language,
-                        temperature=self.transcription_temperature,
-                    )
-                except:
+                for _ in range(50): # retries
+                    try:
+                        text = self.client.audio.transcriptions.create(
+                            model=self.transcription_model_name,
+                            file=obj,
+                            response_format="verbose_json",
+                            timestamp_granularities=["segment"],
+                            language=language,
+                            temperature=self.transcription_temperature,
+                        )
+                        good = True
+                        break
+                    except Exception as e:
+                        print(e)
+                        time.sleep(5)
+                        good = False
+                if not good:
                     return -1, -1
 
                 if isinstance(file_obj, tuple):
@@ -147,7 +156,9 @@ class OpenAIModel(BaseModel):
             topic_text: Optional[str],
             num_questions: int,
             num_multiple_answers: int,
-            language: str = "it"
+            language: str = "it",
+            uploaded_file_document: list[FileStorage] = [],
+            uploaded_file_syllabus: list[FileStorage] = [],
     ):
         attr = {
             "materials": materials,
@@ -163,8 +174,39 @@ class OpenAIModel(BaseModel):
             prompt = prompt_topic
 
         prompt = prompt.format(**attr)
+        content: list[dict] = [
+            {
+                "type": "text",
+                "text": prompt
+            }
+        ]
+
+        for pdf in uploaded_file_document:
+            if pdf.mimetype != "application/pdf":
+                return jsonify({
+                    "error": f"{pdf.filename} is not a PDF"
+                }), 400
+
+            pdf.stream.seek(0)
+
+            uploaded = self.client.files.create(
+                file=(
+                    pdf.filename,
+                    pdf.stream,
+                    "application/pdf",
+                ),
+                purpose="user_data",
+            )
+
+            content.append({
+                "type": "file",
+                "file": {
+                    "file_id": uploaded.id,
+                },
+            })
+
         messages = [{
-            "content": prompt,
+            "content": content,
             "role": "user"
         }]
         #try:
@@ -207,7 +249,9 @@ class OpenAIModel(BaseModel):
             topic_text: Optional[str] = None,
             weak_topics: Optional[str] = None,
             amount_of_errors: int = 0,
-            language: str = "it"
+            language: str = "it",
+            uploaded_file_document: list[FileStorage] = [],
+            uploaded_file_syllabus: list[FileStorage] = [],
     ):
         attr = {
             "materials": materials,
@@ -232,10 +276,54 @@ class OpenAIModel(BaseModel):
 
         prompt = prompt.format(**attr)
 
+        content: list[dict] = [
+            {
+                "type": "text",
+                "text": prompt
+            }
+        ]
+
+        for pdf in uploaded_file_document:
+            if pdf.mimetype != "application/pdf":
+                return jsonify({
+                    "error": f"{pdf.filename} is not a PDF"
+                }), 400
+
+            pdf.stream.seek(0)
+
+            uploaded = self.client.files.create(
+                file=(
+                    pdf.filename,
+                    pdf.stream,
+                    "application/pdf",
+                ),
+                purpose="user_data",
+            )
+
+            content.append({
+                "type": "text",
+                "text": (
+                    f"SOURCE_FILENAME: {os.path.basename(pdf.filename)}\n"
+                    "The immediately following PDF is this source."
+                ),
+            })
+
+            content.append({
+                "type": "file",
+                "file": {
+                    "file_id": uploaded.id,
+                },
+            })
+
         messages = [{
-            "content": prompt,
+            "content": content,
             "role": "user"
         }]
+
+        """messages = [{
+            "content": prompt,
+            "role": "user"
+        }]"""
 
         try:
             response = remove_markdown_syntax(self.query(messages))

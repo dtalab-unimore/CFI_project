@@ -56,3 +56,22 @@ curl -X POST "http://localhost:5000/api/evaluate" \
 
 with `YOUR_PASSCODE` being the `secret_passcode` set in the `API` section of `instance/config.toml`.  
 The request will return the list of correct answers, the weak topics identified and a feedback message indicating which part needs to be revised.  
+
+# How to provide multiple documents / syllabus
+
+To provide multiple documents or syllabus to the APIs, just append the following attributes to the previous `generate_qa` / `evaluate` requests
+
+```
+  -F "document=@/path/to/document1.pdf"
+  -F "document=@/path/to/document2.pdf"
+```
+
+for the syllabus,
+
+```
+  -F "syllabus=@/path/to/syllabus1.pdf"
+  -F "syllabus=@/path/to/syllabus2.pdf"
+```
+
+i.e., a new row for each document to be considered inside the request.
+

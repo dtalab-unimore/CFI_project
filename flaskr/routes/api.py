@@ -90,6 +90,7 @@ def transcribe():
     #segments_total = [s.model_dump() for s in segments_total]
     for i in range(len(segments_total)):
         segments_total[i]["text"] = fix_mojibake(unescape_unicode(segments_total[i]["text"]))
+        segments_total[i] = {"start": segments_total[i]["start"], "end": segments_total[i]["end"], "text": segments_total[i]["text"]}
 
     return jsonify(
         text=text_total,

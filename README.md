@@ -12,10 +12,10 @@ docker compose up -d --build
 You can use the following curl request to transcribe a video
 
 ```
-curl -X POST "http://localhost:5000/api/transcribe" \
+`curl -X POST "http://localhost:5000/api/transcribe" \
   -H "X-API-PASSCODE: YOUR_PASSCODE" \
   -F "video=@/absolute/path/to/video.mp4" \
-  -F "language=it"
+  -F "language=it"`
 ```
 
 with `YOUR_PASSCODE` being the `secret_passcode` set in the `API` section of `instance/config.toml`. 

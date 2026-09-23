@@ -1,10 +1,70 @@
 [
   {
-    "question": "Qual era l'obiettivo di Alessandro Magno riguardo alla fusione dei popoli?",
-    "answers": ["Riformare le poleis greche", "Dominare militarmente l'Asia", "Espandere la cultura greca in Occidente", "Creare un impero greco e persiano"]
+    "question": "Quale impresa storica intraprende Alessandro Magno nel 334 a.C.?",
+    "answers": ["L'espansione in Italia", "La conquista dell'Egitto", "La conquista della Macedonia", "La conquista della Persia"]
   },
   {
-    "question": "Dove morì Alessandro Magno?",
-    "answers": ["Babilonia", "Roma", "Sofia", "Costantinopoli"]
+    "question": "Chi era il re persiano affrontato da Alessandro Magno?",
+    "answers": ["Artaserse", "Xerxes", "Ciro II", "Dario III"]
+  },
+  {
+    "question": "In quale anno morì Alessandro Magno?",
+    "answers": ["324 a.C.", "323 a.C.", "330 a.C.", "321 a.C."]
+  },
+  {
+    "question": "Quale territorio non è stato conquistato da Alessandro Magno?",
+    "answers": ["Persepoli", "Roma", "Babilonia", "India"]
+  },
+  {
+    "question": "Qual è la lunghezza complessiva del viaggio di Alessandro Magno?",
+    "answers": ["18.000 chilometri", "25.000 chilometri", "10.000 chilometri", "15.000 chilometri"]
+  },
+  {
+    "question": "Secondo le fonti, chi è considerato il padre di Alessandro Magno?",
+    "answers": ["Dario III", "Aristotele", "Filippo II", "Zeus"]
+  },
+  {
+    "question": "Qual è il significato della figura di Alessandro nella storia greca?",
+    "answers": ["Un simbolo di indipendenza", "Un simbolo di potere", "Un simbolo di guerra", "Un simbolo di grandezza imperiale"]
+  },
+  {
+    "question": "Perché Alessandro si è spinto fino ai confini del mondo conosciuto?",
+    "answers": ["Per dimostrare la sua forza", "Per raggiungere un ideale di grandezza", "Per cercare un modo per tornare a casa", "Per conquistare nuove terre"]
+  },
+  {
+    "question": "Cosa rappresenta il mito di Alessandro Magno nel contesto storico?",
+    "answers": ["Un leader ambizioso", "Un guerriero invincibile", "Un avventuriero senza meta", "Un filosofo della guerra"]
+  },
+  {
+    "question": "Quale caratteristica distingue Alessandro Magno dai suoi predecessori?",
+    "answers": ["Il suo desiderio di tornare in Grecia", "Il suo amore per la filosofia", "La sua ambizione di superare il padre", "Il suo interesse per l'arte"]
+  },
+  {
+    "question": "Qual è stata l'influenza dell'educazione di Aristotele su Alessandro?",
+    "answers": ["Un disprezzo per i barbari", "Un amore per la cultura greca", "Una propensione alla guerra", "Nessuna influenza"]
+  },
+  {
+    "question": "Come viene descritto il rapporto tra Alessandro e il suo padre Filippo II?",
+    "answers": ["Un rapporto di rivalità", "Un rapporto di rispetto", "Un rapporto armonioso", "Un rapporto di indifferenza"]
+  },
+  {
+    "question": "Qual è il ruolo di Olimpiade nella vita di Alessandro?",
+    "answers": ["Una regina senza potere", "Una figura marginale", "Una madre influente con ideali divini", "Una principessa di guerra"]
+  },
+  {
+    "question": "Qual è la conseguenza della morte di Alessandro Magno per l'Impero?",
+    "answers": ["Un cambiamento di potere verso l'Occidente", "Un ritorno alla Grecia", "Un consolidamento del potere persiano", "Un'espansione continua"]
+  },
+  {
+    "question": "In che modo Alessandro ha influenzato la cultura dei territori conquistati?",
+    "answers": ["Non ha avuto alcun impatto", "Ha imposto la cultura greca", "Ha distrutto le culture locali", "Ha integrato le culture locali"]
+  },
+  {
+    "question": "Quale era l'aspettativa di Alessandro riguardo alla fusione dei popoli?",
+    "answers": ["Un'alleanza temporanea", "Una pace duratura", "Una superiorità greca", "Una completa assimilazione"]
+  },
+  {
+    "question": "Considerando che l'ATP è la moneta energetica della cellula e che il documento descrive fasi luminose nella fotosintesi, quale ruolo inferito può avere la fase luminosa rispetto all'ATP?",
+    "answers": ["La fase luminosa converte l'ATP in glucosio direttamente", "La fase luminosa è responsabile solo della produzione di ossigeno e non influisce sull'energia chimica", "La fase luminosa genera potenza e composti energetici (come ATP o equivalenti) necessari per la fase oscura", "La fase luminosa distrugge l'ATP prodotto dalla respirazione"]
   }
 ]

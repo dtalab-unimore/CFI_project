@@ -1,4 +1,4 @@
-prompt_topic = """Given some data of a course, like video transcriptions, documents or syllabus, generate a list of {num_questions} multiple-choice questions (with {num_multiple_answers} answers) about the {topic_text} topic.
+prompt_topic = """Given some data of a course, like video transcriptions, documents or syllabus, generate a list of exactly {num_questions} multiple-choice questions (with {num_multiple_answers} answers) about the {topic_text} topic.
 The questions MUST BE in the following language: {language}.
 The questions must be grounded on the given material, and must not ask things that are not indicated in the materials.
 You must not have verbosity bias: the correct answer must not always be the longest answer out of all the options.
@@ -16,6 +16,8 @@ Generate directly the list of questions in the following manner. Write exactly "
 }}
 
 Strictly follow the requirements, making questions about the {topic_text} topic, with the correct question typology and with the correct {language} language.
+Also, make sure that the number of questions are exactly {num_questions} and that each question has exactly {num_multiple_answers} answers.
+Try to make the questions uniformly distributed across the provided materials, and avoid making all the questions about a single part of the materials.
 To generate the questions, follow exactly the response format. Do not write anything else after "Final answer:"
 
 # Materials
@@ -24,7 +26,7 @@ To generate the questions, follow exactly the response format. Do not write anyt
 
 """
 
-prompt_wo_topic = """Given some data of a course, like video transcriptions, documents or syllabus, generate a list of {num_questions} multiple-choice questions (with {num_multiple_answers} answers).
+prompt_wo_topic = """Given some data of a course, like video transcriptions, documents or syllabus, generate a list of exactly {num_questions} multiple-choice questions (with {num_multiple_answers} answers).
 The questions MUST BE in the following language: {language}.
 The questions must be grounded on the given material, and must not ask things that are not indicated in the materials.
 You must not have verbosity bias: the correct answer must not always be the longest answer out of all the options.
@@ -42,6 +44,8 @@ Generate directly the list of questions in the following manner. Write exactly "
 }}
 
 Strictly follow the requirements, making questions with the correct question typology and with the correct {language} language.
+Also, make sure that the number of questions are exactly {num_questions} and that each question has exactly {num_multiple_answers} answers.
+Try to make the questions uniformly distributed across the provided materials, and avoid making all the questions about a single part of the materials.
 To generate the questions, follow exactly the response format. Do not write anything else after "Final answer:"
 
 # Materials

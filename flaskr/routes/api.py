@@ -1,5 +1,6 @@
 import hmac
 import io
+import os
 import json
 
 from flask import Blueprint, current_app, request, abort, jsonify
@@ -53,9 +54,9 @@ def check_passcode():
     provided = request.headers.get("X-API-PASSCODE")
 
     if not provided or not allowed:
-        unauthorized()
+        return unauthorized(None)
     if not any(hmac.compare_digest(provided, code) for code in allowed):
-        forbidden()
+        return forbidden(None)
 
 @bp.post("/transcribe")
 def transcribe():
@@ -93,7 +94,7 @@ def transcribe():
         segments_total[i] = {"start": segments_total[i]["start"], "end": segments_total[i]["end"], "text": segments_total[i]["text"]}
 
     return jsonify(
-        text=text_total,
+        # text=text_total,
         segments=segments_total
     )
 
@@ -147,7 +148,7 @@ def generate_qa():
     if "transcription" in request.form:
         materials += f"## Transcription\n{request.form['transcription']}\n\n" # TODO: maybe it needs to be reprocessed
 
-    uploaded_file_document = None
+    uploaded_file_document = []
     if "document" in request.form or "document" in request.files:
         uploaded_text = request.form.get("document")
 
@@ -165,7 +166,7 @@ def generate_qa():
         else:
             materials += f"## Document\nSee the attached documents below.\n\n"
 
-    uploaded_file_syllabus = None
+    uploaded_file_syllabus = []
     if "syllabus" in request.form or "syllabus" in request.files:
         uploaded_text_syllabus = request.form.get("syllabus")
 
@@ -258,6 +259,7 @@ def evaluate():
         txt += f"\nCorrect answer: {d['correct_answer']}"
         return txt
 
+    num_questions = len(questions)
     questions_txt = "\n\n".join([dict_to_string(question) for question in questions])
 
     openai_model = current_app.extensions["openai_model"]
@@ -279,7 +281,7 @@ def evaluate():
     if "transcription" in request.form:
         materials += f"## Transcription\n{request.form['transcription']}\n\n"  # TODO: maybe it needs to be reprocessed
 
-    uploaded_file_document = None
+    uploaded_file_document = []
     if "document" in request.form or "document" in request.files:
         uploaded_text = request.form.get("document")
 
@@ -295,9 +297,10 @@ def evaluate():
         if uploaded_text is not None:
             materials += f"## Document\n{request.form['document']}\n\n"
         else:
-            materials += f"## Document\nSee the attached documents below.\n\n"
+            filenames = ", ".join(os.path.basename(d.filename) for d in uploaded_file_document)
+            materials += f"## Document\nAttached PDF files (attached in the following order): {filenames}.\n\n"
 
-    uploaded_file_syllabus = None
+    uploaded_file_syllabus = []
     if "syllabus" in request.form or "syllabus" in request.files:
         uploaded_text_syllabus = request.form.get("syllabus")
 
@@ -318,12 +321,13 @@ def evaluate():
     general_feedback_message = openai_model.generate_feedback(
         materials,
         questions_txt,
+        num_questions,
         topic_text,
         weak_topics,
         amount_of_errors=sum(wrong_answers),
         language=language,
         uploaded_file_document=uploaded_file_document,
-        uploaded_file_syllabus=uploaded_file_syllabus
+        uploaded_file_syllabus=uploaded_file_syllabus,
     )
 
     if general_feedback_message == -1:

@@ -246,6 +246,7 @@ class OpenAIModel(BaseModel):
             self,
             materials: str,
             questions_txt: str,
+            num_questions: int,
             topic_text: Optional[str] = None,
             weak_topics: Optional[str] = None,
             amount_of_errors: int = 0,
@@ -257,10 +258,12 @@ class OpenAIModel(BaseModel):
             "materials": materials,
             "questions": questions_txt,
             "language": language,
+            "num_questions": num_questions,
         }
 
         if topic_text is not None:
             attr["topic"] = topic_text
+            attr["amount_of_errors"] = 0
         if weak_topics is not None:
             attr["weak_topics"] = weak_topics
             attr["amount_of_errors"] = amount_of_errors
@@ -284,6 +287,38 @@ class OpenAIModel(BaseModel):
         ]
 
         for pdf in uploaded_file_document:
+            if pdf.mimetype != "application/pdf":
+                return jsonify({
+                    "error": f"{pdf.filename} is not a PDF"
+                }), 400
+
+            pdf.stream.seek(0)
+
+            uploaded = self.client.files.create(
+                file=(
+                    pdf.filename,
+                    pdf.stream,
+                    "application/pdf",
+                ),
+                purpose="user_data",
+            )
+
+            content.append({
+                "type": "text",
+                "text": (
+                    f"SOURCE_FILENAME: {os.path.basename(pdf.filename)}\n"
+                    "The immediately following PDF is this source."
+                ),
+            })
+
+            content.append({
+                "type": "file",
+                "file": {
+                    "file_id": uploaded.id,
+                },
+            })
+
+        for pdf in uploaded_file_syllabus:
             if pdf.mimetype != "application/pdf":
                 return jsonify({
                     "error": f"{pdf.filename} is not a PDF"

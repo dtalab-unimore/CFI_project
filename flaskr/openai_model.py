@@ -259,14 +259,13 @@ class OpenAIModel(BaseModel):
             "questions": questions_txt,
             "language": language,
             "num_questions": num_questions,
+            "amount_of_errors": amount_of_errors,
         }
 
         if topic_text is not None:
             attr["topic"] = topic_text
-            attr["amount_of_errors"] = 0
         if weak_topics is not None:
             attr["weak_topics"] = weak_topics
-            attr["amount_of_errors"] = amount_of_errors
 
         if "topic" in attr and "weak_topics" in attr:
             prompt = prompt_generate_feedback

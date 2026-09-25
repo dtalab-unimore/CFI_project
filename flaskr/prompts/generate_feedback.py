@@ -3,8 +3,8 @@ You must indicate:
 1. the general result of the test, including the amount of errors;
 2. The subtopics where the user is currently lacking;
 3. If there's at least a subtopic where the user is lacking, you must provide suggestions of where to improve, which material to revise and where. Provide suggestions of which materials to revise based exclusively on what questions the user got wrong
-    a) for example, for transcripts, you must indicate the timeframes where the user needs to revise;
-    b) for documents, you must indicate which document(s) and where in the document(s) the user needs to revise.
+    a) for example, for transcripts, you must indicate the timeframes where the user needs to revise. In the feedback, refer to the video, not the term "transcript". Use the format minutes:seconds, not only seconds. If no transcripts are provided, you can avoid this point;
+    b) for documents, you must indicate which document(s) and where in the document(s) the user needs to revise. If no documents are provided, you can avoid this point.
 
 Avoid writing other things outside of the points above. Do not be too verbose.
 If all the answers are correct, you can avoid telling the user which subtopics and materials to revise, but still encourage the user to keep on practicing and learning.
@@ -71,8 +71,8 @@ You must indicate:
 1. the general result of the test, including the amount of errors;
 2. The subtopics where the user is currently lacking;
 3. If there's at least a subtopic where the user is lacking, you must provide suggestions of where to improve, which material to revise and where. Provide suggestions of which materials to revise based exclusively on what questions the user got wrong
-    a) for example, for transcripts, you must indicate the timeframes where the user needs to revise. In the feedback, refer to the video, not the term "transcript". Use the format minutes:seconds, not only seconds;
-    b) for document(s), you must indicate where in the document(s) the user needs to revise.
+    a) for example, for transcripts, you must indicate the timeframes where the user needs to revise. In the feedback, refer to the video, not the term "transcript". Use the format minutes:seconds, not only seconds. If no transcripts are provided, you can avoid this point;
+    b) for document(s), you must indicate where in the document(s) the user needs to revise. If no documents are provided, you can avoid this point.
 
 Avoid writing other things outside of the points above. Do not be too verbose.
 If all the answers are correct, you can avoid telling the user which subtopics and materials to revise, but still encourage the user to keep on practicing and learning.

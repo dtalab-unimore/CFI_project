@@ -15,6 +15,8 @@ You MUST NOT:
 You MUST:
 1. give the response in the following language: {language}
 2. avoid gender-identifying pronouns, and avoid using gender-neutral pronouns as well. Structure your feedback so that it does not require any pronouns to be used.
+3. respond in a concise and clear manner, avoiding verbosity.
+4. use html tags to format the feedback, and use bold for the subtopics and materials to revise and <br> for newlines. Avoid using em dashes.
 
 # MATERIALS
 
@@ -47,6 +49,9 @@ You MUST NOT:
 
 You MUST:
 1. give the response in the following language: {language}
+2. avoid gender-identifying pronouns, and avoid using gender-neutral pronouns as well. Structure your feedback so that it does not require any pronouns to be used.
+3. respond in a concise and clear manner, avoiding verbosity.
+4. use html tags to format the feedback, and use bold for the subtopics and materials to revise and <br> for newlines. Avoid using em dashes.
 
 # MATERIALS
 
@@ -82,6 +87,9 @@ You MUST NOT:
 
 You MUST:
 1. give the response in the following language: {language}
+2. avoid gender-identifying pronouns, and avoid using gender-neutral pronouns as well. Structure your feedback so that it does not require any pronouns to be used.
+3. respond in a concise and clear manner, avoiding verbosity.
+4. use html tags to format the feedback, and use bold for the subtopics and materials to revise and <br> for newlines. Avoid using em dashes.
 
 # MATERIALS
 
@@ -112,6 +120,9 @@ You MUST NOT:
 
 You MUST:
 1. give the response in the following language: {language}
+2. avoid gender-identifying pronouns, and avoid using gender-neutral pronouns as well. Structure your feedback so that it does not require any pronouns to be used.
+3. respond in a concise and clear manner, avoiding verbosity.
+4. use html tags to format the feedback, and use bold for the subtopics and materials to revise and <br> for newlines. Avoid using em dashes.
 
 # MATERIALS
 

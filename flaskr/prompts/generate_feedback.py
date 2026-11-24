@@ -13,10 +13,10 @@ You MUST NOT:
 1. hallucinate or invent things that are not provided, both in the materials and in the question results.
 
 You MUST:
-1. give the response in the following language: {language}
+1. give the response in the following language: {language}. When speaking in italian, do not use the word "sottopici", but "sotto argomenti" instead when you need to use it.
 2. avoid gender-identifying pronouns, and avoid using gender-neutral pronouns as well. Structure your feedback so that it does not require any pronouns to be used.
 3. respond in a concise and clear manner, avoiding verbosity.
-4. use html tags to format the feedback, and use bold for the subtopics and materials to revise and <br> for newlines. Avoid using em dashes.
+4. use html tags to format the feedback, and use bold for the subtopics and materials to revise and <br> for newlines. Use paragraphs <p> to format the text correctly, as well as list tags (e.g. <ul>) whenever you need to use lists. DO NOT use em dashes (—).
 
 # MATERIALS
 
